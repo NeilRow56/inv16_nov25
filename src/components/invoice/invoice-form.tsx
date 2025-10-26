@@ -4,6 +4,10 @@ import { useState } from 'react'
 import { InvoicePreview } from './invoice-preview'
 import { Button } from '../ui/button'
 import { Eye } from 'lucide-react'
+import BasicDetails from './basic-details'
+import ContactDetails from './contact-details'
+import ItemsList from './items-list'
+import TaxAndTotals from './tax-totals'
 
 export function InvoiceForm() {
   const [showPreview, setShowPreview] = useState(false)
@@ -23,7 +27,12 @@ export function InvoiceForm() {
           Preview
         </Button>
       </div>
-      INVOICE FORM
+      <div className='space-y-6'>
+        <BasicDetails />
+        <ContactDetails />
+        <ItemsList />
+        <TaxAndTotals />
+      </div>
     </div>
   )
 }
