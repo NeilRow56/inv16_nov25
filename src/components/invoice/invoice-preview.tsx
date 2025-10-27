@@ -110,18 +110,15 @@ export function InvoicePreview({ onBack }: InvoicePreviewProps) {
               <div className='w-64 space-y-2'>
                 <div className='flex justify-between'>
                   <span>Subtotal:</span>
-                  <span>$Subtotal</span>
+                  <span>$21323</span>
                 </div>
                 <div className='flex justify-between'>
-                  <span>
-                    Tax ({typeof 0}
-                    %):
-                  </span>
-                  <span>$tax.amount</span>
+                  <span>Tax (10%):</span>
+                  <span>$99</span>
                 </div>
                 <div className='flex justify-between border-t pt-2 text-lg font-bold'>
                   <span>Total:</span>
-                  <span>$total</span>
+                  <span>$997</span>
                 </div>
               </div>
             </div>
