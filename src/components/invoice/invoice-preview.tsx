@@ -2,6 +2,23 @@ import { Download } from 'lucide-react'
 import { Button } from '../ui/button'
 import { Card, CardContent } from '../ui/card'
 
+export const items = [
+  {
+    id: 1,
+    description: 'Website Design',
+    quantity: 1,
+    rate: 500,
+    amount: 500
+  },
+  {
+    id: 2,
+    description: 'Hosting (12 months)',
+    quantity: 1,
+    rate: 120,
+    amount: 120
+  }
+]
+
 interface InvoicePreviewProps {
   onBack: () => void
 }
@@ -38,7 +55,7 @@ export function InvoicePreview({ onBack }: InvoicePreviewProps) {
                 <p className='text-gray-600'>#Invoice number</p>
               </div>
               <div className='text-right'>
-                <p className='text-sm text-gray-600'>Date</p>
+                <p className='text-sm text-gray-600'>Date: 21/12/2025</p>
               </div>
             </div>
 
@@ -46,13 +63,13 @@ export function InvoicePreview({ onBack }: InvoicePreviewProps) {
             <div className='mb-8 grid grid-cols-2 gap-8'>
               <div>
                 <h3 className='mb-2 font-semibold'>From:</h3>
-                <p className='font-medium'>Name</p>
-                <p className='text-gray-600'>Email</p>
+                <p className='font-medium'>Acme</p>
+                <p className='text-gray-600'>acme@email.com</p>
               </div>
               <div>
                 <h3 className='mb-2 font-semibold'>To:</h3>
-                <p className='font-medium'>Email receipient</p>
-                <p className='text-gray-600'>Invoice to email</p>
+                <p className='font-medium'>John Doe</p>
+                <p className='text-gray-600'>johndoe@email.com</p>
               </div>
             </div>
 
@@ -67,12 +84,24 @@ export function InvoicePreview({ onBack }: InvoicePreviewProps) {
                 </tr>
               </thead>
               <tbody>
-                <tr className='border-b'>
-                  <td className='py-2'>description</td>
-                  <td className='py-2 text-center'>quantity</td>
-                  <td className='py-2 text-right'>$ "0.00"</td>
-                  <td className='py-2 text-right'>$ "0.00"</td>
-                </tr>
+                {items.map(item => (
+                  <tr className='border-b' key={item.id}>
+                    <td className='py-2'>{item.description}</td>
+                    <td className='py-2 text-center'>{item.quantity}</td>
+                    <td className='py-2 text-right'>
+                      $
+                      {typeof item.rate === 'number'
+                        ? item.rate.toFixed(2)
+                        : '0.00'}
+                    </td>
+                    <td className='py-2 text-right'>
+                      $
+                      {typeof item.amount === 'number'
+                        ? item.amount.toFixed(2)
+                        : '0.00'}
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
 

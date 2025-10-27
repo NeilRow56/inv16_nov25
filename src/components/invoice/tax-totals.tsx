@@ -49,10 +49,7 @@ export default function TaxAndTotals() {
             <span>$100</span>
           </div>
           <div className='flex justify-between'>
-            <span>
-              Tax ({0}
-              %):
-            </span>
+            <span>Tax (10%):</span>
             <span>$10</span>
           </div>
           <div className='flex justify-between border-t pt-2 text-lg font-bold'>
