@@ -1,29 +1,25 @@
+// "use client";
+
 import { Download } from 'lucide-react'
 import { Button } from '../ui/button'
 import { Card, CardContent } from '../ui/card'
-
-export const items = [
-  {
-    id: 1,
-    description: 'Website Design',
-    quantity: 1,
-    rate: 500,
-    amount: 500
-  },
-  {
-    id: 2,
-    description: 'Hosting (12 months)',
-    quantity: 1,
-    rate: 120,
-    amount: 120
-  }
-]
+import { useInvoice } from '@/context/invoice-context'
+import { formatDate } from '@/utils/formatters'
+import { generatePDF } from '@/utils/pdf-generator'
+// import { useState } from "react";
 
 interface InvoicePreviewProps {
   onBack: () => void
 }
 
-export function InvoicePreview({ onBack }: InvoicePreviewProps) {
+export default function InvoicePreview({ onBack }: InvoicePreviewProps) {
+  const { invoice } = useInvoice()
+  // const [pdfUrl, setPdfUrl] = useState<string | null>(null);
+
+  const handleDownloadPDF = () => {
+    generatePDF(invoice)
+  }
+
   return (
     <div className='min-h-screen bg-gray-50 p-4'>
       <div className='mx-auto max-w-4xl'>
@@ -33,7 +29,7 @@ export function InvoicePreview({ onBack }: InvoicePreviewProps) {
             <Button variant='outline' onClick={onBack}>
               Back to Edit
             </Button>
-            <Button>
+            <Button onClick={handleDownloadPDF}>
               <Download className='mr-2 h-4 w-4' />
               Download PDF
             </Button>
@@ -52,10 +48,12 @@ export function InvoicePreview({ onBack }: InvoicePreviewProps) {
             <div className='mb-8 flex items-start justify-between'>
               <div>
                 <h2 className='mb-2 text-3xl font-bold'>INVOICE</h2>
-                <p className='text-gray-600'>#Invoice number</p>
+                <p className='text-gray-600'>#{invoice.invoiceNumber}</p>
               </div>
               <div className='text-right'>
-                <p className='text-sm text-gray-600'>Date: 21/12/2025</p>
+                <p className='text-sm text-gray-600'>
+                  Date: {formatDate(invoice.date)}
+                </p>
               </div>
             </div>
 
@@ -63,13 +61,13 @@ export function InvoicePreview({ onBack }: InvoicePreviewProps) {
             <div className='mb-8 grid grid-cols-2 gap-8'>
               <div>
                 <h3 className='mb-2 font-semibold'>From:</h3>
-                <p className='font-medium'>Acme</p>
-                <p className='text-gray-600'>acme@email.com</p>
+                <p className='font-medium'>{invoice.fromName}</p>
+                <p className='text-gray-600'>{invoice.fromEmail}</p>
               </div>
               <div>
                 <h3 className='mb-2 font-semibold'>To:</h3>
-                <p className='font-medium'>John Doe</p>
-                <p className='text-gray-600'>johndoe@email.com</p>
+                <p className='font-medium'>{invoice.toName}</p>
+                <p className='text-gray-600'>{invoice.toEmail}</p>
               </div>
             </div>
 
@@ -84,8 +82,8 @@ export function InvoicePreview({ onBack }: InvoicePreviewProps) {
                 </tr>
               </thead>
               <tbody>
-                {items.map(item => (
-                  <tr className='border-b' key={item.id}>
+                {invoice.items.map(item => (
+                  <tr key={item.id} className='border-b'>
                     <td className='py-2'>{item.description}</td>
                     <td className='py-2 text-center'>{item.quantity}</td>
                     <td className='py-2 text-right'>
@@ -110,15 +108,19 @@ export function InvoicePreview({ onBack }: InvoicePreviewProps) {
               <div className='w-64 space-y-2'>
                 <div className='flex justify-between'>
                   <span>Subtotal:</span>
-                  <span>$21323</span>
+                  <span>${invoice.subtotal.toFixed(2)}</span>
                 </div>
                 <div className='flex justify-between'>
-                  <span>Tax (10%):</span>
-                  <span>$99</span>
+                  <span>
+                    Tax (
+                    {typeof invoice.taxRate === 'number' ? invoice.taxRate : 0}
+                    %):
+                  </span>
+                  <span>${invoice.taxAmount.toFixed(2)}</span>
                 </div>
                 <div className='flex justify-between border-t pt-2 text-lg font-bold'>
                   <span>Total:</span>
-                  <span>$997</span>
+                  <span>${invoice.total.toFixed(2)}</span>
                 </div>
               </div>
             </div>

@@ -3,7 +3,6 @@
 import { initialInvoiceData } from '@/lib/constants'
 import { InvoiceData, InvoiceItem } from '@/types/invoice'
 import { calculateTotals } from '@/utils/calculations'
-
 import { createContext, ReactNode, useContext, useState } from 'react'
 
 interface InvoiceContextType {

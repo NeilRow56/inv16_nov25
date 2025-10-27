@@ -1,26 +1,11 @@
+'use client'
 import { Plus } from 'lucide-react'
 import { Button } from '../ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
 import InvoiceItem from './invoice-item'
+import { useInvoice } from '@/context/invoice-context'
 
-// Dummy data so that we can set up the mapping functionality
-
-export const items = [
-  {
-    id: 1,
-    description: 'Website Design',
-    quantity: 1,
-    rate: 500,
-    amount: 500
-  },
-  {
-    id: 2,
-    description: 'Hosting (12 months)',
-    quantity: 1,
-    rate: 120,
-    amount: 120
-  }
-]
+const { invoice, addItem } = useInvoice()
 
 export default function ItemsList() {
   const addItem = () => {}
@@ -34,8 +19,13 @@ export default function ItemsList() {
         </Button>
       </CardHeader>
       <CardContent className='space-y-4'>
-        {items.map(item => (
-          <InvoiceItem key={item.id} />
+        {invoice.items.map((item, index) => (
+          <InvoiceItem
+            key={item.id}
+            item={item}
+            index={index}
+            canRemove={invoice.items.length > 1}
+          />
         ))}
       </CardContent>
     </Card>
