@@ -5,10 +5,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
 import InvoiceItem from './invoice-item'
 import { useInvoice } from '@/context/invoice-context'
 
-const { invoice, addItem } = useInvoice()
-
 export default function ItemsList() {
-  const addItem = () => {}
+  const { invoice, addItem } = useInvoice()
+
   return (
     <Card>
       <CardHeader className='flex flex-row items-center justify-between'>

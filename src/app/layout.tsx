@@ -34,10 +34,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en' suppressHydrationWarning>
-      <InvoiceProvider>
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <InvoiceProvider>
           <ThemeProvider
             attribute='class'
             defaultTheme='system'
@@ -58,8 +58,8 @@ export default function RootLayout({
               }}
             />
           </ThemeProvider>
-        </body>
-      </InvoiceProvider>
+        </InvoiceProvider>
+      </body>
     </html>
   )
 }

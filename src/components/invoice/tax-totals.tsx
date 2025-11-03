@@ -1,27 +1,29 @@
-'use client'
+import { useInvoice } from '@/context/invoice-context'
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
 import { Input } from '../ui/input'
 import { Label } from '../ui/label'
 
 export default function TaxAndTotals() {
-  //   const handleTaxRateChange = (value: string) => {
-  //     // Allow empty string temporarily
-  //     if (value === "") {
-  //       updateInvoice({ taxRate: "" });
-  //     } else {
-  //       const numValue = Number.parseFloat(value);
-  //       if (!isNaN(numValue) && numValue >= 0 && numValue <= 100) {
-  //         updateInvoice({ taxRate: numValue });
-  //       }
-  //     }
-  //   };
+  const { invoice, updateInvoice } = useInvoice()
 
-  //   const handleTaxRateBlur = () => {
-  //     // If empty on blur, set to 0
-  //     if (invoice.taxRate === "" || isNaN(Number(invoice.taxRate))) {
-  //       updateInvoice({ taxRate: 0 });
-  //     }
-  //   };
+  const handleTaxRateChange = (value: string) => {
+    // Allow empty string temporarily
+    if (value === '') {
+      updateInvoice({ taxRate: '' })
+    } else {
+      const numValue = Number.parseFloat(value)
+      if (!isNaN(numValue) && numValue >= 0 && numValue <= 100) {
+        updateInvoice({ taxRate: numValue })
+      }
+    }
+  }
+
+  const handleTaxRateBlur = () => {
+    // If empty on blur, set to 0
+    if (invoice.taxRate === '' || isNaN(Number(invoice.taxRate))) {
+      updateInvoice({ taxRate: 0 })
+    }
+  }
 
   return (
     <Card>
@@ -30,32 +32,33 @@ export default function TaxAndTotals() {
       </CardHeader>
       <CardContent className='grid grid-cols-1 gap-6 md:grid-cols-2'>
         <div>
-          <Label className='mb-2 font-bold' htmlFor='taxRate'>
-            Tax Rate (%)
-          </Label>
+          <Label htmlFor='taxRate'>Tax Rate (%)</Label>
           <Input
             id='taxRate'
             type='number'
             min='0'
             max='100'
             step='0.01'
-            // value={invoice.taxRate}
-            // onChange={(e) => handleTaxRateChange(e.target.value)}
-            // onBlur={handleTaxRateBlur}
+            value={invoice.taxRate}
+            onChange={e => handleTaxRateChange(e.target.value)}
+            onBlur={handleTaxRateBlur}
           />
         </div>
         <div className='space-y-2'>
           <div className='flex justify-between'>
             <span>Subtotal:</span>
-            <span>$100</span>
+            <span>${invoice.subtotal.toFixed(2)}</span>
           </div>
           <div className='flex justify-between'>
-            <span>Tax (10%):</span>
-            <span>$10</span>
+            <span>
+              Tax ({typeof invoice.taxRate === 'number' ? invoice.taxRate : 0}
+              %):
+            </span>
+            <span>${invoice.taxAmount.toFixed(2)}</span>
           </div>
           <div className='flex justify-between border-t pt-2 text-lg font-bold'>
             <span>Total:</span>
-            <span>$110</span>
+            <span>${invoice.total.toFixed(2)}</span>
           </div>
         </div>
       </CardContent>
